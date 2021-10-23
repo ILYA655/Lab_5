@@ -192,7 +192,6 @@ void BFS_list(bool* A2, int n, List** vrt)
 void BFS(int** A1, int n, bool* A2)
 {
 	queue<int> q;
-	
 	int a;
 	cout << "Enter vertex: ";
 	cin >> a;
@@ -264,6 +263,7 @@ int** create(int n)
 
 int main()
 {
+    clock_t start, end;
 	int n, ** t, s, o;
 	cout << "Enter array size: ";
 	cin >> n;
@@ -273,8 +273,12 @@ int main()
 	for (int i = 0; i < n; i++)
 		A2[i] = false;
 	cout << endl;
+    start =  clock(); // старт таймера
 	BFS(t, n, A2);
-	cout << endl;
+    end = clock(); // остановка таймера
+    float diff = (end - start);
+    cout << endl;
+    cout << "time is: " << diff << endl;
     for (int i = 0; i < n; i++)
 		A2[i] = false;
     initialize(n, vrt);
@@ -283,7 +287,11 @@ int main()
     BFS_list(A2, n, vrt);
     for (int i = 0; i < n; i++)
 		A2[i] = false;
+    start =  clock(); // старт таймера
     BFS_list_q(t, n, A2);
+    end = clock(); // остановка таймера
+    float diff1 = (end - start);
+    cout << "time is: " << diff1 << endl;
 	for (int i = 0; i < n; i++)
 		free(t[i]);
 	free(t);
