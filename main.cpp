@@ -56,26 +56,22 @@ void del(Node *tmp) // удаление элемента
     free(p);
 }
 
-void BFS_list_q(int** A1, int n, bool* A2)
+void BFS_list_q(int** A1, int n, bool* A2, int a3)
 {
 	Node tmp;
     creation(&tmp);
-	
-	int a;
-	cout << "Enter vertex: ";
-	cin >> a;
-	addition(&tmp, a); // помещаем в очередь вершину
-    A2[a] = true;
+	addition(&tmp, a3); // помещаем в очередь вершину
+    A2[a3] = true;
 	cout << "list BFS queue result: ";
 	while (empty(&tmp)) // пока не пуст
 	{
-		a = head(&tmp); // извлекаем вершину
+		a3 = head(&tmp); // извлекаем вершину
 		del(&tmp);
-		cout << a << " ";
+		cout << a3 << " ";
 		//for (int j = n - 1; j >= 0; j--) // проверяем для нее все смежные вершины
 		for (int j = 0; j < n; j++)
 		{
-			if (A1[a][j] == 1 && A2[j] == false) // если вершина смежная и не обнаружена
+			if (A1[a3][j] == 1 && A2[j] == false) // если вершина смежная и не обнаружена
 			{
 				addition(&tmp, j); // добавляем ее в очередь
 				A2[j] = true; // отмечаем вершину как обнаруженную
@@ -83,7 +79,6 @@ void BFS_list_q(int** A1, int n, bool* A2)
 		}
 	}
 	cin.get();
-    cout << endl;
 }
 
 List* init(int num)
@@ -153,16 +148,13 @@ void print(List** vrt, int n)
 	cout << endl;
 }
 
-void BFS_list(bool* A2, int n, List** vrt)
+void BFS_list(bool* A2, int n, List** vrt, int a4)
 {
     queue<int> q;
 	
     List* h;
-	int a;
-	cout << "Enter vertex: ";
-	cin >> a;
-    int i = a;
-	q.push(a); // помещаем в очередь вершину
+    int i = a4;
+	q.push(a4); // помещаем в очередь вершину
     A2[i] = true;
 	cout << "BFS list queue result: ";
     
@@ -189,24 +181,21 @@ void BFS_list(bool* A2, int n, List** vrt)
 	cin.get();
 }
 
-void BFS(int** A1, int n, bool* A2)
+void BFS(int** A1, int n, bool* A2, int a1)
 {
 	queue<int> q;
-	int a;
-	cout << "Enter vertex: ";
-	cin >> a;
-	q.push(a); // помещаем в очередь вершину
-    A2[a] = true;
+	q.push(a1); // помещаем в очередь вершину
+    A2[a1] = true;
 	cout << "BFS queue result: ";
 	while (!q.empty()) // пока не пуст
 	{
-		a = q.front(); // извлекаем вершину
+		a1 = q.front(); // извлекаем вершину
 		q.pop();
-		cout << a << " ";
+		cout << a1 << " ";
 		//for (int j = n - 1; j >= 0; j--) // проверяем для нее все смежные вершины
 		for (int j = 0; j < n; j++)
 		{
-			if (A1[a][j] == 1 && A2[j] == false) // если вершина смежная и не обнаружена
+			if (A1[a1][j] == 1 && A2[j] == false) // если вершина смежная и не обнаружена
 			{
 				q.push(j); // добавляем ее в очередь
 				A2[j] = true; // отмечаем вершину как обнаруженную
@@ -250,21 +239,21 @@ int** create(int n)
 	for (int i = 0; i < n; i++)
 		cout << "V" << i << " ";
 
-	for (int i = 0; i < n; i++)
+/*	for (int i = 0; i < n; i++)
 	{
 		cout << endl;
 		for (int j = 0; j < n; j++)
 		{
 			cout << A1[i][j] << "  ";
 		}
-	}
+	}*/
 	return A1;
 }
 
 int main()
 {
     clock_t start, end;
-	int n, ** t, s, o;
+	int n, ** t, s, o, a1, a3, a4;
 	cout << "Enter array size: ";
 	cin >> n;
 	List** vrt = (List**)malloc(n * sizeof(List*));
@@ -273,8 +262,10 @@ int main()
 	for (int i = 0; i < n; i++)
 		A2[i] = false;
 	cout << endl;
-    start =  clock(); // старт таймера
-	BFS(t, n, A2);
+	cout << "Enter vertex: ";
+	cin >> a1;
+	start =  clock(); // старт таймера
+	BFS(t, n, A2, a1);
     end = clock(); // остановка таймера
     float diff = (end - start);
     cout << endl;
@@ -283,19 +274,24 @@ int main()
 		A2[i] = false;
     initialize(n, vrt);
     result(vrt, t, n);
-    print(vrt, n);
-    BFS_list(A2, n, vrt);
+    //print(vrt, n);
+	cout << "Enter vertex: ";
+	cin >> a4;
+    BFS_list(A2, n, vrt, a4);
     for (int i = 0; i < n; i++)
 		A2[i] = false;
+	cout << "Enter vertex: ";
+	cin >> a3;
     start =  clock(); // старт таймера
-    BFS_list_q(t, n, A2);
+    BFS_list_q(t, n, A2, a3);
     end = clock(); // остановка таймера
     float diff1 = (end - start);
+	cout << endl;
     cout << "time is: " << diff1 << endl;
 	for (int i = 0; i < n; i++)
 		free(t[i]);
 	free(t);
 	free(A2);
-	//system("pause");
+	system("pause");
 	return 0;
 }
